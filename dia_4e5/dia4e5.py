@@ -77,7 +77,7 @@ b_8.place(x=59, y=52)
 b_9 = Button(frame_corpo, command=lambda: entrada_valor('9'), text="9", width=5, height=2, bg=cinza, font=('Ivy 13 bold'), background=cinza_escuro, bd=0, fg=branco, relief=RAISED, overrelief=RIDGE)
 b_9.place(x=118, y=52)
 
-b_multiplicacao = Button(frame_corpo, command=lambda: entrada_valor('x'), text="x", width=5, height=2, bg=cinza, font=('Ivy 13 bold'), background=verde, bd=0, fg=branco, relief=RAISED, overrelief=RIDGE)
+b_multiplicacao = Button(frame_corpo, command=lambda: entrada_valor('*'), text="*", width=5, height=2, bg=cinza, font=('Ivy 13 bold'), background=verde, bd=0, fg=branco, relief=RAISED, overrelief=RIDGE)
 b_multiplicacao.place(x=177, y=52)
 
 # LINHA 3
