@@ -8,7 +8,7 @@ branco = "#ffffff"
 cinza = "#eceff1"
 vermelho = "#ff5722"
 cinza_escuro = "#363636"
-verde = "#25D366"
+roxo = "#7E00D1"
 
  # Configurando a janela
 janela = Tk()
@@ -37,7 +37,13 @@ def entrada_valor(event):
 def calcular():
     global todos_valores
     
-    resultado = eval(todos_valores)
+    if '%' in todos_valores:
+        valores = todos_valores.split('%')
+        resultado = float(valores[0]) * (float(valores[1]) / 100)
+        
+    else: 
+        resultado = eval(todos_valores)
+        
     valor_texto.set(str(resultado))
     
 # Funcao limpar
@@ -64,7 +70,7 @@ b_limpar.place(x=0, y=0)
 b_porcentagem = Button(frame_corpo, command = lambda: entrada_valor('%'), text="%", width=5, height=2, bg=cinza, font=('Ivy 13 bold'), background=cinza_escuro, bd=0, fg=branco, relief=RAISED, overrelief=RIDGE)
 b_porcentagem.place(x=118, y=0)
 
-b_divisao = Button(frame_corpo, command=lambda: entrada_valor('/'), text="/", width=5, height=2, bg=cinza, font=('Ivy 13 bold'), background=verde, bd=0, fg=branco, relief=RAISED, overrelief=RIDGE)
+b_divisao = Button(frame_corpo, command=lambda: entrada_valor('/'), text="/", width=5, height=2, bg=cinza, font=('Ivy 13 bold'), background=roxo, bd=0, fg=branco, relief=RAISED, overrelief=RIDGE)
 b_divisao.place(x=177, y=0)
 
 # LINHA 2
@@ -77,7 +83,7 @@ b_8.place(x=59, y=52)
 b_9 = Button(frame_corpo, command=lambda: entrada_valor('9'), text="9", width=5, height=2, bg=cinza, font=('Ivy 13 bold'), background=cinza_escuro, bd=0, fg=branco, relief=RAISED, overrelief=RIDGE)
 b_9.place(x=118, y=52)
 
-b_multiplicacao = Button(frame_corpo, command=lambda: entrada_valor('*'), text="*", width=5, height=2, bg=cinza, font=('Ivy 13 bold'), background=verde, bd=0, fg=branco, relief=RAISED, overrelief=RIDGE)
+b_multiplicacao = Button(frame_corpo, command=lambda: entrada_valor('*'), text="*", width=5, height=2, bg=cinza, font=('Ivy 13 bold'), background=roxo, bd=0, fg=branco, relief=RAISED, overrelief=RIDGE)
 b_multiplicacao.place(x=177, y=52)
 
 # LINHA 3
@@ -90,7 +96,7 @@ b_5.place(x=59, y=104)
 b_6 = Button(frame_corpo, command=lambda: entrada_valor('6'),text="6", width=5, height=2, bg=cinza, font=('Ivy 13 bold'), background=cinza_escuro, bd=0, fg=branco, relief=RAISED, overrelief=RIDGE)
 b_6.place(x=118, y=104)
 
-b_subtracao = Button(frame_corpo, command=lambda: entrada_valor('-'), text="-", width=5, height=2, bg=cinza, font=('Ivy 13 bold'), background=verde, bd=0, fg=branco, relief=RAISED, overrelief=RIDGE)
+b_subtracao = Button(frame_corpo, command=lambda: entrada_valor('-'), text="-", width=5, height=2, bg=cinza, font=('Ivy 13 bold'), background=roxo, bd=0, fg=branco, relief=RAISED, overrelief=RIDGE)
 b_subtracao.place(x=177, y=104)
 
 # LINHA 4
@@ -103,7 +109,7 @@ b_2.place(x=59, y=156)
 b_3 = Button(frame_corpo, text="3", command=lambda: entrada_valor('3'),width=5, height=2, bg=cinza, font=('Ivy 13 bold'), background=cinza_escuro, bd=0, fg=branco, relief=RAISED, overrelief=RIDGE)
 b_3.place(x=118, y=156)
 
-b_adicao = Button(frame_corpo, text="+", command=lambda: entrada_valor('+'), width=5, height=2, bg=cinza, font=('Ivy 13 bold'), background=verde, bd=0, fg=branco, relief=RAISED, overrelief=RIDGE)
+b_adicao = Button(frame_corpo, text="+", command=lambda: entrada_valor('+'), width=5, height=2, bg=cinza, font=('Ivy 13 bold'), background=roxo, bd=0, fg=branco, relief=RAISED, overrelief=RIDGE)
 b_adicao.place(x=177, y=156)
 
 # LINHA 5
@@ -113,7 +119,7 @@ b_0.place(x=0, y=208)
 b_ponto = Button(frame_corpo, text=".", command=lambda: entrada_valor('.'), width=5, height=2, bg=cinza, font=('Ivy 13 bold'), background=cinza_escuro, bd=0, fg=branco, relief=RAISED, overrelief=RIDGE)
 b_ponto.place(x=118, y=208)
 
-b_igual = Button(frame_corpo, text="=", command=calcular, width=5, height=2, bg=verde, font=('Ivy 13 bold'), background=verde, bd=0, fg=branco, relief=RAISED, overrelief=RIDGE)
+b_igual = Button(frame_corpo, text="=", command=calcular, width=5, height=2, font=('Ivy 13 bold'), background=roxo, bd=0, fg=branco, relief=RAISED, overrelief=RIDGE)
 b_igual.place(x=177, y=208)
 
 
