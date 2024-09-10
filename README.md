@@ -2,7 +2,7 @@
 
  **Para dar clone**
 ```bash
-  https://github.com/CauanLagrotta/100_dias_de_codigo.git
+  git clone https://github.com/CauanLagrotta/100_dias_de_codigo.git
 ```
 
 **Para entrar no projeto**
