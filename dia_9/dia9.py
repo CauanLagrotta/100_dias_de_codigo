@@ -23,8 +23,8 @@ def CriarTabelaProdutos():
     
     estilo = ttk.Style()
     estilo.theme_use("clam")
-    estilo.configure("Treeview", background=cinza_escuro, fg=branco, rowheight=25, fieldbackground=cinza_escuro)
-    estilo.configure("Treeview.Heading", background=roxo, fg=branco)
+    estilo.configure("Treeview", background=cinza_escuro, foreground=branco, rowheight=25, fieldbackground=cinza_escuro)
+    estilo.configure("Treeview.Heading", background=roxo, foreground=branco)
     
     estilo.map("Treeview", bg=[("selected", roxo)], fg=[("selected", branco)])
     
@@ -37,9 +37,10 @@ def CriarTabelaProdutos():
     tabela.heading('Custo', text='Custo')
     
     # Ajustando o tamanho das colunas
-    tabela.column('Produtos', width=150, anchor=CENTER)
+    tabela.column('Produtos', width=200, anchor=CENTER)
     tabela.column('Vendas', width=150, anchor=CENTER)
     tabela.column('Custo', width=150, anchor=CENTER)
+
     
     # Inserindo os dados na tabela
     produtos = [
@@ -69,8 +70,10 @@ def CriarTabelaEstatisticas():
     # Estilo
     estilo = ttk.Style()
     estilo.theme_use("clam")
+    
     estilo.configure("Treeview", background=cinza_escuro, fg=branco, rowheight=25, fieldbackground=cinza_escuro)
     estilo.configure("Treeview.Heading", background=roxo, fg=branco)
+    estilo.map("Treeview", background=[("selected", roxo)], foreground=[("selected", branco)])
     
     # Tabela estatisticas
     tabela['columns'] = ('Estatisticas', 'Valores')
@@ -134,13 +137,14 @@ def adicionarItem():
 
     Button(adicionarJanela, text="Salvar", command=salvarItem, bg=roxo, fg=branco).pack(pady=10)
 
+
 # Tabela
 tabela = ttk.Treeview(janela, show='headings')
-tabela.pack(pady=20)
+tabela.pack(pady=20, fill=BOTH, expand=True)
 
 # Frame para os botoes
 frameBotoes = Frame(janela, bg=cinza_escuro)
-frameBotoes.pack(pady=20)
+frameBotoes.pack(pady=20, fill=X)
 
 # Botoes
 botaoProdutos = Button(frameBotoes, text="Tabela De Produtos", command=CriarTabelaProdutos, font=('Arial', 12), relief=FLAT, width=20, background=roxo, fg=branco, border=1 )
@@ -153,4 +157,5 @@ botaoAdicionarItems = Button(frameBotoes, text="Adicionar Items", command=adicio
 botaoAdicionarItems.grid(row=0, column=2, padx=10)
 
 
+CriarTabelaProdutos()
 janela.mainloop()
