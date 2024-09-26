@@ -5,72 +5,69 @@ var seconds = document.querySelector('.seconds');
 var title = document.querySelector('.title-page');
 var container = document.querySelector('.container');
 
+
+const morningImg = new Image();
+const afternoonImg = new Image();
+const nightImg = new Image();
+morningImg.src = './images/morning.gif';
+afternoonImg.src = './images/sunset.gif';
+nightImg.src = './images/night.gif';
+
 navigator.geolocation.getCurrentPosition((position) => {
     const latitude = position.coords.latitude;
     const longitude = position.coords.longitude;
-    console.log('Latitude:', latitude, 'Longitude:', longitude);
 
-    // Buscar o clima
-    axios.get(`/api/weather?lat=${latitude}&lon=${longitude}`)
-        .then((response) => {
-            console.log('Dados do clima recebidos:', response.data);
-            const weather = response.data.weather[0].description;
-            const temp = response.data.main.temp;
-            const city = response.data.name;
-            const country = response.data.sys.country;
-            const icon = response.data.weather[0].icon;
+    
+    Promise.all([
+        axios.get(`/api/weather?lat=${latitude}&lon=${longitude}`),
+        axios.get(`/api/location?lat=${latitude}&lon=${longitude}`)
+    ])
+    .then(([weatherResponse, locationResponse]) => {
+        // Dados do clima
+        const weather = weatherResponse.data.weather[0].description;
+        let temp = weatherResponse.data.main.temp;
+        const icon = weatherResponse.data.weather[0].icon;
+        
+        temp = Math.round(temp);
+        // Dados de localização
+        const city = locationResponse.data[0].name;
+        const state = locationResponse.data[0].state;
+        const country = locationResponse.data[0].country;
 
-            // Tradução dos climas
-            const translations = {
-                'clear sky': 'Céu limpo',
-                'few clouds': 'Poucas nuvens',
-                'scattered clouds': 'Nuvens dispersas',
-                'broken clouds': 'Nuvens quebradas',
-                'shower rain': 'Chuva rápida',
-                'rain': 'Chuva',
-                'thunderstorm': 'Tempestade',
-                'snow': 'Neve',
-                'mist': 'Neblina'
-            };
+        // Tradução dos climas
+        const translations = {
+            'clear sky': 'Céu limpo',
+            'few clouds': 'Poucas nuvens',
+            'scattered clouds': 'Nuvens dispersas',
+            'broken clouds': 'Nuvens quebradas',
+            'shower rain': 'Chuva rápida',
+            'rain': 'Chuva',
+            'thunderstorm': 'Tempestade',
+            'snow': 'Neve',
+            'mist': 'Neblina'
+        };
 
-            const translatedWeather = translations[weather] || weather;
+        const translatedWeather = translations[weather] || weather;
 
-            // Atualizar HTML com dados e ícone
-            weatherDisplay.innerHTML = `
-                <h2>Clima em ${city}, ${country}</h2>
-                <p>${translatedWeather}</p>
-                <p>${temp}°C</p>
-                <img src="http://openweathermap.org/img/wn/${icon}.png" alt="ícone do clima" />
-            `;
-        })
-        .catch((error) => {
-            console.error('Erro ao buscar dados de clima:', error);
-            weatherDisplay.innerHTML = 'Erro ao buscar dados de clima';
-        });
-
-    // Buscar a localização (cidade, estado) usando geocodificação reversa
-    axios.get(`/api/location?lat=${latitude}&lon=${longitude}`)
-        .then((response) => {
-            console.log('Dados de localização recebidos:', response.data);
-            if (response.data[0]) {
-                const city = response.data[0].name;
-                const state = response.data[0].state;
-                const country = response.data[0].country;
-                
-                // Atualiza com a localização correta
-                weatherDisplay.innerHTML += `<p>Localização: ${city}, ${state}, ${country}</p>`;
-            }
-        })
-        .catch((error) => {
-            console.error('Erro ao buscar dados de localização:', error);
-        });
-
+        
+        weatherDisplay.innerHTML = `
+            <h2>Clima em ${city}, ${country}</h2>
+            <p>${translatedWeather}</p>
+            <p>${temp}°C</p>
+            <img src="http://openweathermap.org/img/wn/${icon}.png" alt="ícone do clima" />
+            <p>Localização: ${city}, ${state}, ${country}</p>
+        `;
+    })
+    .catch((error) => {
+        console.error('Erro ao buscar dados:', error);
+        weatherDisplay.innerHTML = 'Erro ao buscar dados';
+    });
 }, (error) => {
     console.error('Erro ao obter localização:', error);
     weatherDisplay.innerHTML = 'Não foi possível obter a localização';
 });
 
-// Relógio
+
 var clock = setInterval(function time() { 
     var dateToday = new Date();
     var hr = dateToday.getHours();
@@ -85,25 +82,20 @@ var clock = setInterval(function time() {
     minutes.innerHTML = min;
     seconds.innerHTML = sec;
 
-    if (hr < 12 && hr > 5) {
+    
+    if (hr >= 6 && hr < 12) {
         title.innerHTML = 'Bom dia!';
-        container.style.backgroundImage = "url('./images/morning.gif')"; 
-        container.style.backgroundSize = "cover";
-        container.style.backgroundPosition = "center";
-        container.style.backgroundRepeat = "no-repeat";
-
-    } else if (hr < 18 && hr > 12) {
+        container.style.backgroundImage = `url(${morningImg.src})`; 
+    } else if (hr >= 12 && hr < 18) {
         title.innerHTML = 'Boa tarde!';
-        container.style.backgroundImage = "url('./images/sunset.gif')";
-        container.style.backgroundSize = "cover";
-        container.style.backgroundPosition = "center";
-        container.style.backgroundRepeat = "no-repeat";
-
-    } else if (hr < 24 && hr > 18) {
+        container.style.backgroundImage = `url(${afternoonImg.src})`;
+    } else {
         title.innerHTML = 'Boa noite!';
-        container.style.backgroundImage = "url('./images/night.gif')";
-        container.style.backgroundSize = "cover";
-        container.style.backgroundPosition = "center";
-        container.style.backgroundRepeat = "no-repeat";
+        container.style.backgroundImage = `url(${nightImg.src})`;
     }
-});
+
+    container.style.backgroundSize = "cover";
+    container.style.backgroundPosition = "center";
+    container.style.backgroundRepeat = "no-repeat";
+
+}, 1000);
